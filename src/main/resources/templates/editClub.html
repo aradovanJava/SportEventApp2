@@ -3,13 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>Edit club</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
 Editing club
 <form th:action="@{/welcome/editClub.html}" th:object="${club}" method="post">
-    <input type="hidden" th:field="*{id}" />
-    <p>Name: <input type="text" th:field="*{name}" /></p>
-    <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+    <div class="form-group">
+        <input type="hidden" th:field="*{id}" />
+        <label for="inputName">Name</label>
+        <input type="text" th:field="*{name}" class="form-control mw-10" id="inputName" />
+        <input type="submit" value="Submit" class="btn btn-primary" />
+        <input type="reset" value="Reset" class="btn btn-primary" />
+    </div>
 </form>
 </body>
 </html>

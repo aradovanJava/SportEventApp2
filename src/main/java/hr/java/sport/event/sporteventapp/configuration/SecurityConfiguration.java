@@ -15,6 +15,7 @@ import org.springframework.security.web.authentication.logout.CookieClearingLogo
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRequestHandler;
 import org.springframework.security.web.csrf.XorCsrfTokenRequestAttributeHandler;
+import org.springframework.security.web.header.writers.XXssProtectionHeaderWriter;
 import org.springframework.security.web.server.authentication.logout.DelegatingServerLogoutHandler;
 import org.springframework.security.web.server.authentication.logout.SecurityContextServerLogoutHandler;
 import org.springframework.security.web.server.authentication.logout.WebSessionServerLogoutHandler;
@@ -47,8 +48,8 @@ public class SecurityConfiguration {
                         .ignoringRequestMatchers(toH2Console()))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(mvc(introspector).pattern("/h2**")).anonymous()
-                        .requestMatchers(mvc(introspector).pattern("/welcome/editClub**")).hasRole("ADMIN")
-                        .requestMatchers(mvc(introspector).pattern("/welcome/**")).hasAnyRole("USER", "ADMIN")
+                        //.requestMatchers(mvc(introspector).pattern("/welcome/editClub**")).hasRole("ADMIN")
+                        //.requestMatchers(mvc(introspector).pattern("/welcome**")).hasAnyRole("USER", "ADMIN")
                         .anyRequest().authenticated()
                 )
                 .formLogin(login -> login
@@ -60,7 +61,18 @@ public class SecurityConfiguration {
                                 .deleteCookies("remove")
                                 .invalidateHttpSession(false)
                                 .logoutSuccessUrl("/login.html")
-                ).build();
+                )
+
+                /*
+                .headers(headers ->
+                        headers.xssProtection(
+                                xss -> xss.headerValue(XXssProtectionHeaderWriter.HeaderValue.ENABLED_MODE_BLOCK)
+                        ).contentSecurityPolicy(
+                                cps -> cps.policyDirectives("script-src 'self'; style-src 'self' stackpath.bootstrapcdn.com maxcdn.bootstrapcdn.com; img-src 'self'; connect-src 'self'; frame-src 'self'; frame-ancestors 'self'; font-src 'self'; media-src 'self'; object-src 'self'; manifest-src 'self'; form-action 'self';")
+                                //cps -> cps.policyDirectives("script-src 'self'")
+                        ))
+                        */
+        .build();
     }
 
     @Bean
