@@ -48,8 +48,6 @@ public class SecurityConfiguration {
                         .ignoringRequestMatchers(toH2Console()))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(mvc(introspector).pattern("/h2**")).anonymous()
-                        //.requestMatchers(mvc(introspector).pattern("/welcome/editClub**")).hasRole("ADMIN")
-                        //.requestMatchers(mvc(introspector).pattern("/welcome**")).hasAnyRole("USER", "ADMIN")
                         .anyRequest().authenticated()
                 )
                 .formLogin(login -> login
