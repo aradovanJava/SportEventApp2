@@ -62,16 +62,6 @@ public class SecurityConfiguration {
                                 .invalidateHttpSession(false)
                                 .logoutSuccessUrl("/login.html")
                 )
-
-                /*
-                .headers(headers ->
-                        headers.xssProtection(
-                                xss -> xss.headerValue(XXssProtectionHeaderWriter.HeaderValue.ENABLED_MODE_BLOCK)
-                        ).contentSecurityPolicy(
-                                cps -> cps.policyDirectives("script-src 'self'; style-src 'self' stackpath.bootstrapcdn.com maxcdn.bootstrapcdn.com; img-src 'self'; connect-src 'self'; frame-src 'self'; frame-ancestors 'self'; font-src 'self'; media-src 'self'; object-src 'self'; manifest-src 'self'; form-action 'self';")
-                                //cps -> cps.policyDirectives("script-src 'self'")
-                        ))
-                        */
         .build();
     }
 
