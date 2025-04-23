@@ -48,6 +48,8 @@ public class SecurityConfiguration {
                         .ignoringRequestMatchers(toH2Console()))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(mvc(introspector).pattern("/h2**")).anonymous()
+                        //.requestMatchers(mvc(introspector).pattern("/welcome/editClub**")).hasRole("ADMIN")
+                        //.requestMatchers(mvc(introspector).pattern("/welcome**")).hasAnyRole("USER", "ADMIN")
                         .anyRequest().authenticated()
                 )
                 .formLogin(login -> login
@@ -60,6 +62,13 @@ public class SecurityConfiguration {
                                 .invalidateHttpSession(false)
                                 .logoutSuccessUrl("/login.html")
                 )
+                .headers(headers ->
+                        headers.xssProtection(
+                                xss -> xss.headerValue(XXssProtectionHeaderWriter.HeaderValue.ENABLED_MODE_BLOCK)
+                        ).contentSecurityPolicy(
+                                cps -> cps.policyDirectives("script-src 'self'; style-src 'self' stackpath.bootstrapcdn.com maxcdn.bootstrapcdn.com; img-src 'self'; connect-src 'self'; frame-src 'self'; frame-ancestors 'self'; font-src 'self'; media-src 'self'; object-src 'self'; manifest-src 'self'; form-action 'self';")
+                                //cps -> cps.policyDirectives("script-src 'self'")
+                        ))
         .build();
     }
 
