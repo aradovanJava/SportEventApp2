@@ -28,17 +28,24 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
-@AllArgsConstructor
 public class SecurityConfiguration {
 
     private HandlerMappingIntrospector introspector;
 
     private DataSource dataSource;
 
+    public SecurityConfiguration(HandlerMappingIntrospector introspector, DataSource dataSource) {
+        this.introspector = introspector;
+        this.dataSource = dataSource;
+    }
+
+    /*
     @Bean
     MvcRequestMatcher.Builder mvc(HandlerMappingIntrospector introspector) {
         return new MvcRequestMatcher.Builder(introspector);
     }
+
+     */
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -47,7 +54,7 @@ public class SecurityConfiguration {
                 .csrf(csrf -> csrf
                         .ignoringRequestMatchers(toH2Console()))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(mvc(introspector).pattern("/h2**")).anonymous()
+                        //.requestMatchers(mvc(introspector).pattern("/h2**")).anonymous()
                         .anyRequest().authenticated()
                 )
                 .formLogin(login -> login
